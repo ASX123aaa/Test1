@@ -1,0 +1,21 @@
+name: Mirror to Second Account
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Second Account
+        env:
+          USER_PAT: ${{ secrets.GH_PAT_2 }}
+        run: |
+          git remote add target https://ghp_${USER_PAT}@github.com/ASX123aaa/Test1.git
+          git push target main --force
